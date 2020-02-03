@@ -34,6 +34,10 @@
                   <v-spacer-center />
                   <v-btn color="primary">Sigh Up</v-btn>
                 </v-card-actions>
+                <v-card-actions>
+                <v-spacer-center />
+                <router-link to="/"><v-btn color="primary">Back</v-btn></router-link>
+                </v-card-actions>
               </v-card>
             </v-col>
           </v-row>
