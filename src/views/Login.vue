@@ -13,15 +13,18 @@
                 <v-card-text>
                   <v-form>
                     <v-text-field
-                      label="Email or username"
-                      name="login"
-                      type="text"
+                            prepend-icon="person"
+                            label="Email or username"
+                            name="login"
+                            type="text"
                     />
                     <v-text-field
-                      id="password"
-                      label="Password"
-                      name="password"
-                      type="password"
+                            prepend-icon="lock"
+                            id="password"
+                            label="Password"
+                            name="password"
+                            type="password"
+
                     />
                   </v-form>
                 </v-card-text>
