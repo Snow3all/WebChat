@@ -7,7 +7,8 @@
             <v-col cols="12" sm="8" md="4">
               <v-card class="elevation-12">
                 <v-toolbar color="primary" dark flat>
-                  <v-toolbar-title>CloudChat</v-toolbar-title>
+                  <v-icon>cloud</v-icon>
+                    <v-toolbar-title>CloudChat</v-toolbar-title>
                   <v-spacer />
                 </v-toolbar>
                 <v-card-text>
@@ -24,7 +25,6 @@
                             label="Password"
                             name="password"
                             type="password"
-
                     />
                   </v-form>
                 </v-card-text>
