@@ -24,7 +24,7 @@
                               type="text"
                       />
                       <v-text-field
-                      id="password"
+                      auth="password"
                       label="Password"
                       name="password"
                       type="password"
