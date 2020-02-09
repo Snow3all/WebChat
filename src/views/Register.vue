@@ -24,7 +24,7 @@
                               type="text"
                       />
                       <v-text-field
-                      id="password"
+                      auth="password"
                       label="Password"
                       name="password"
                       type="password"
@@ -33,7 +33,7 @@
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer-center />
-                  <v-btn color="primary">Sigh Up</v-btn>
+                  <v-btn color="primary">Sigh Up </v-btn>
                 </v-card-actions>
                 <v-card-actions>
                 <v-spacer-center />
@@ -50,8 +50,8 @@
 
 <script>
 export default {
-  name: "Register"
-};
-</script>
 
+
+}
+</script>
 <style scoped></style>
