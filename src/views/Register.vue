@@ -15,12 +15,12 @@
                   <v-form>
                     <v-text-field
                             label="Username"
-                            name="login"
+                            name="user"
                             type="text"
                     />
                       <v-text-field
                               label="Email"
-                              name="login"
+                              name="email"
                               type="text"
                       />
                       <v-text-field
@@ -49,9 +49,31 @@
 </template>
 
 <script>
-export default {
-
-
-}
+  // import axios from 'axios'
+  // import router from '../router'
+  // export default {
+  //   data () {
+  //     return {
+  //       first_name: '',
+  //       last_name: '',
+  //       email: '',
+  //       password: ''
+  //     }
+  //   },
+  //   methods: {
+  //     register () {
+  //       axios.post('users/register', {
+  //         first_name: this.first_name,
+  //         last_name: this.last_name,
+  //         email: this.email,
+  //         password: this.password
+  //       }).then(res => {
+  //         router.push({ name: 'Login' })
+  //       }).catch(err => {
+  //         console.log(err)
+  //       })
+  //     }
+  //   }
+  // }
 </script>
 <style scoped></style>

@@ -1,7 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Login";
-
+// eslint-disable-next-line no-unused-vars
+import Register from "../views/Register";
+// eslint-disable-next-line no-unused-vars
+import ChatFeed from "../views/ChatFeed";
 Vue.use(VueRouter);
 
 
@@ -14,11 +17,16 @@ const routes = [
   {
     path: "/Register",
     name: "Register",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
+
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Register")
+      import( "../views/Register")
+  },
+  {
+    path: "/ChatFeed",
+    name: "ChatFeed",
+
+    component: () =>
+        import( "../views/ChatFeed")
   }
 ];
 
