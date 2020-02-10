@@ -15,29 +15,35 @@
                   <v-form>
                     <v-text-field
                             label="Username"
-                            name="user"
+                            name="username"
+                            v-model="username"
+                            id="username"
                             type="text"
                     />
                       <v-text-field
                               label="Email"
                               name="email"
-                              type="text"
+                              v-model="email"
+                              id="email"
+                              type="email"
                       />
                       <v-text-field
                       auth="password"
                       label="Password"
                       name="password"
+                      v-model="password"
+                      id="password"
                       type="password"
                     />
                   </v-form>
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer-center />
-                  <v-btn color="primary">Sigh Up </v-btn>
+                  <v-btn color="primary" type="submit" @click="register">Sigh Up </v-btn>
                 </v-card-actions>
                 <v-card-actions>
                 <v-spacer-center />
-                <router-link to="/"><v-btn color="primary">Back</v-btn></router-link>
+                <router-link to="/"><v-btn color="primary"  >Back</v-btn></router-link>
                 </v-card-actions>
               </v-card>
             </v-col>
@@ -49,31 +55,35 @@
 </template>
 
 <script>
-  // import axios from 'axios'
-  // import router from '../router'
-  // export default {
-  //   data () {
-  //     return {
-  //       first_name: '',
-  //       last_name: '',
-  //       email: '',
-  //       password: ''
-  //     }
-  //   },
-  //   methods: {
-  //     register () {
-  //       axios.post('users/register', {
-  //         first_name: this.first_name,
-  //         last_name: this.last_name,
-  //         email: this.email,
-  //         password: this.password
-  //       }).then(res => {
-  //         router.push({ name: 'Login' })
-  //       }).catch(err => {
-  //         console.log(err)
-  //       })
-  //     }
-  //   }
-  // }
+  import axios from 'axios'
+  import router from '../router'
+  import cors from 'cors'
+  export default {
+    data() {
+      return {
+        username: '',
+        email: '',
+        password: ''
+      }
+    },
+    methods: {
+      register() {
+        // eslint-disable-next-line no-console
+        console.log("username")
+        axios.post('localhost:5000/user/register/', {
+          username: this.username,
+          email: this.email,
+          password: this.password
+          // eslint-disable-next-line no-unused-vars
+        }).then(res => {
+          router.push({name: 'Login'})
+        }).catch(err => {
+          // eslint-disable-next-line no-console
+          console.log(err)
+        })
+      }
+    }
+  }
+
 </script>
 <style scoped></style>

@@ -30,7 +30,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer-center />
-                  <v-btn color="primary">Login</v-btn>
+                  <v-btn color="primary" @click="login">Login</v-btn>
                 </v-card-actions>
                   <v-card-actions>
                       <v-spacer-center />
@@ -46,7 +46,19 @@
 </template>
 
 <script>
-
+  export default {
+  methods:{
+    login() {
+      // eslint-disable-next-line no-console
+      console.log('Login test get');
+    let uri = "http://localhost:5000/users/testget/";
+    this.axios.get(uri, this.username).then(response => {
+      // eslint-disable-next-line no-console
+      console.log(response);
+    });
+  }
+  }
+  }
 </script>
 
 <style scoped></style>
