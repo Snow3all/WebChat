@@ -1,5 +1,6 @@
 <template>
   <div class="text-center">
+    <form>
     <v-app id="inspire">
       <v-content>
         <v-container class="fill-height" fluid>
@@ -38,11 +39,11 @@
                   </v-form>
                 </v-card-text>
                 <v-card-actions>
-                  <v-spacer-center />
+
                   <v-btn color="primary" type="submit" @click="register">Sigh Up </v-btn>
                 </v-card-actions>
                 <v-card-actions>
-                <v-spacer-center />
+
                 <router-link to="/"><v-btn color="primary"  >Back</v-btn></router-link>
                 </v-card-actions>
               </v-card>
@@ -51,13 +52,14 @@
         </v-container>
       </v-content>
     </v-app>
+    </form>
   </div>
 </template>
 
 <script>
   import axios from 'axios'
-  import router from '../router'
-  import cors from 'cors'
+  // import router from '../router'
+
   export default {
     data() {
       return {
@@ -67,16 +69,16 @@
       }
     },
     methods: {
+
       register() {
         // eslint-disable-next-line no-console
-        console.log("username")
-        axios.post('localhost:5000/user/register/', {
+        console.log (this.username)
+        axios.post('http://localhost:5000/users/register', {
           username: this.username,
           email: this.email,
           password: this.password
           // eslint-disable-next-line no-unused-vars
-        }).then(res => {
-          router.push({name: 'Login'})
+
         }).catch(err => {
           // eslint-disable-next-line no-console
           console.log(err)
