@@ -1,5 +1,8 @@
 <template>
   <div class="text-center">
+      <v-btn color="primary" @click="login" type="submit">Login</v-btn>
+
+      <form>
     <v-app id="inspire">
       <v-content>
         <v-container class="fill-height" fluid>
@@ -18,6 +21,7 @@
                             label="Email or username"
                             name="login"
                             type="text"
+                            v-model="email"
                     />
                     <v-text-field
                             prepend-icon="lock"
@@ -25,40 +29,74 @@
                             label="Password"
                             name="password"
                             type="password"
+                            v-model="password"
                     />
                   </v-form>
                 </v-card-text>
                 <v-card-actions>
-                    <v-spacer-center />
-                  <v-btn color="primary" @click="login">Login</v-btn>
+
+<!--                  <v-btn color="primary" @click="login" type="submit">Login</v-btn>-->
                 </v-card-actions>
                   <v-card-actions>
-                      <v-spacer-center />
-                      <router-link to="Register"><v-btn color="primary">Register</v-btn></router-link>
+
+                    <router-link to="Register"><v-btn color="primary">Register</v-btn></router-link>
                   </v-card-actions>
               </v-card>
             </v-col>
           </v-row>
+<!--            <v-btn color="primary" @click="login" type="submit">Login</v-btn>-->
         </v-container>
       </v-content>
     </v-app>
+    </form>
+
+
+
   </div>
 </template>
 
 <script>
-  export default {
-  methods:{
-    login() {
-      // eslint-disable-next-line no-console
-      console.log('Login test get');
-    let uri = "http://localhost:5000/users/testget/";
-    this.axios.get(uri, this.username).then(response => {
-      // eslint-disable-next-line no-console
-      console.log(response);
-    });
-  }
-  }
-  }
+    import axios from 'axios'
+    // import router from '../router'
+    export default {
+        name: 'login',
+        data() {
+            return {
+                email: '',
+                password: ''
+            }
+        },
+        methods: {
+            login() {
+                // eslint-disable-next-line no-console
+                console.log("email",this.email)
+                axios.post('http://localhost:5000/users/login', {
+                    email: this.email,
+                    password: this.password
+                }).then(res => {
+                    // eslint-disable-next-line no-console
+                    console.log(res)
+                    if(res.data.error){
+                        // eslint-disable-next-line no-console
+                        console.log(res)
+                        alert("wrong email or password")
+
+                    }else{
+                        localStorage.setItem("usertoken", res.data)
+                        this.email = "email"
+                        this.password = "password"
+                        // eslint-disable-next-line no-console
+                        console.log(localStorage.getItem("usertoken"))
+                        this.$router.replace({name: 'ChatFeed'})
+                    }
+                }).catch(err => {
+                    // eslint-disable-next-line no-console
+                    console.log(err);
+                })
+            }
+        }
+    }
 </script>
 
 <style scoped></style>
+

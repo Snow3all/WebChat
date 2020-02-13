@@ -40,7 +40,8 @@
                 </v-card-text>
                 <v-card-actions>
 
-                  <v-btn color="primary" type="submit" @click="register">Sigh Up </v-btn>
+                 <v-btn color="primary" type="submit" @click="register">Sigh Up</v-btn>
+
                 </v-card-actions>
                 <v-card-actions>
 
@@ -58,8 +59,6 @@
 
 <script>
   import axios from 'axios'
-  // import router from '../router'
-
   export default {
     data() {
       return {
@@ -71,14 +70,17 @@
     methods: {
 
       register() {
+
         // eslint-disable-next-line no-console
         console.log (this.username)
         axios.post('http://localhost:5000/users/register', {
           username: this.username,
           email: this.email,
-          password: this.password
+          password: this.password,
+        }).then(res =>{
+          if (res.data.success)
+            alert('SuccessRegister')
           // eslint-disable-next-line no-unused-vars
-
         }).catch(err => {
           // eslint-disable-next-line no-console
           console.log(err)
