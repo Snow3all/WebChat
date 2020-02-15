@@ -1,8 +1,6 @@
 <template>
   <div class="text-center">
-      <v-btn color="primary" @click="login" type="submit">Login</v-btn>
-
-      <form>
+<!--      <v-btn color="primary" @click="login" type="submit">Login</v-btn>-->
     <v-app id="inspire">
       <v-content>
         <v-container class="fill-height" fluid>
@@ -34,24 +32,17 @@
                   </v-form>
                 </v-card-text>
                 <v-card-actions>
-
-<!--                  <v-btn color="primary" @click="login" type="submit">Login</v-btn>-->
+                    <v-btn color="primary" @click="login" type="submit">Login</v-btn>
                 </v-card-actions>
                   <v-card-actions>
-
-                    <router-link to="Register"><v-btn color="primary">Register</v-btn></router-link>
+                      <router-link to="Register"><v-btn color="primary">Register</v-btn></router-link>
                   </v-card-actions>
               </v-card>
             </v-col>
           </v-row>
-<!--            <v-btn color="primary" @click="login" type="submit">Login</v-btn>-->
         </v-container>
       </v-content>
     </v-app>
-    </form>
-
-
-
   </div>
 </template>
 
