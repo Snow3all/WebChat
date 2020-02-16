@@ -1,10 +1,6 @@
 <template>
 
   <div class="text-center">
-    <div v-for="item in items" v-bind:key="item.id">
-      <!-- content -->
-      {{ parentMessage }} - {{ index }} - {{ item.message }}
-    </div>
 
     <v-app id="inspire">
       <v-content>
@@ -63,11 +59,6 @@
             return {
                 email: '',
                 password: '',
-              parentMessage: 'Parent',
-              items: [
-                { message: 'Foo' },
-                { message: 'Bar' }
-              ]
             }
         },
         methods: {
@@ -93,11 +84,9 @@
                         console.log(localStorage.getItem("usertoken"))
                         this.$router.replace({name: 'ChatFeed'})
                       let user = JSON.stringify(res.data);
-                      // let type = JSON.stringify(res.data.type);
                       // eslint-disable-next-line no-console
                       console.log("user", user);
                       localStorage.setItem("userLog", user);
-                      // localStorage.setItem("userData2", JSON.stringify(type));
                       // eslint-disable-next-line no-console
                       console.log(res.data,user,"==>")
                     }

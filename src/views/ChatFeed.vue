@@ -48,67 +48,41 @@
                 >
                     <v-col class="text-center">
 
-<!--                        <template>-->
-<!--                            <div class="card mt-3">-->
-<!--                                <div class="card-body">-->
-<!--                                    <div class="card-title">-->
-<!--                                        <h3>Chat Group</h3>-->
-<!--                                        <hr>-->
-<!--                                    </div>-->
-<!--                                    <div class="card-body">-->
-<!--                                        <div class="messages" v-for="(msg, index) in messages" :key="index">-->
-<!--                                            <p><span class="font-weight-bold">{{ msg.user }}: </span>{{ msg.message }}</p>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="card-footer">-->
-<!--                                    <form @submit.prevent="sendMessage">-->
-<!--                                        <div class="gorm-group">-->
-<!--                                            <label for="user">User:</label>-->
-<!--                                            <input type="text" v-model="user" class="form-control">-->
-<!--                                        </div>-->
-<!--                                        <div class="gorm-group pb-3">-->
-<!--                                            <label for="message">Message:</label>-->
-<!--                                            <input type="text" v-model="message" class="form-control">-->
-<!--                                        </div>-->
-<!--                                        <button type="submit" class="btn btn-success">Send</button>-->
-<!--                                    </form>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </template>-->
 
+                        <div>
+                            <v-row justify="center" align="center"></v-row>
+                            <v-container
 
-<!--                        <v-tooltip left>-->
-<!--                            <template>-->
-<!--                                <v-btn-->
-<!--                                        :href="source"-->
-<!--                                        icon-->
-<!--                                        large-->
-<!--                                        target="_blank"-->
-<!--                                        v-on="on"-->
-<!--                                >-->
-<!--                                    <v-icon large>mdi-code-tags</v-icon>-->
-<!--                                </v-btn>-->
-<!--                            </template>-->
-<!--                            <span>Source</span>-->
-<!--                        </v-tooltip>-->
+                                    id="scroll-target"
+                                    style="max-height: 300px"
+                                    class="overflow-y-auto"
+                            >
+                                <div class="messages" v-for="(msg, index) in messages" :key="index">
+                                    <p><span class="font-weight-bold">{{users.username}}: </span>{{ msg.message }}</p>
+                                </div>
+                                <v-row
+                                        v-scroll:#scroll-target="onScroll"
+                                        align="center"
+                                        justify="center"
+                                        style="height: 1000px"
+                                >
+                                </v-row>
+                            </v-container>
+                        </div>
 
-<!--                        <v-tooltip right>-->
-<!--                            <template v-slot:activator="{ on }">-->
-<!--                                <v-btn-->
-<!--                                        icon-->
-<!--                                        large-->
-<!--                                        href="https://codepen.io/johnjleider/pen/zgxeLQ"-->
-<!--                                        target="_blank"-->
-<!--                                        v-on="on"-->
-<!--                                >-->
-<!--                                    <v-icon large>mdi-codepen</v-icon>-->
-<!--                                </v-btn>-->
-<!--                            </template>-->
-<!--                            <span>Codepen</span>-->
-<!--                        </v-tooltip>-->
                     </v-col>
                 </v-row>
+                <v-banner>
+                    <v-footer>
+                        <form @submit.prevent="sendMessage">
+                            <div class="gorm-group pb-3">
+                                <label for="message">Message:</label>
+                                <input type="text" v-model="message" class="form-control">
+                            </div>
+                            <v-btn type="submit" >Send</v-btn>
+                        </form>
+                    </v-footer>
+                </v-banner>
             </v-container>
         </v-content>
         <v-footer
@@ -121,6 +95,7 @@
 </template>
 
 <script>
+    import io from 'socket.io-client';
     export default {
         props: {
             source: String,
@@ -132,18 +107,38 @@
                 {
                     id :1,
                     username:" "
-                }
+                },
+
             ],
-            nextonlinesId: 2
+            nextOnlineId :2,
 
-
+            message: '',
+            messages: [],
+            socket : io('localhost:5050'),
         }),
     created() {
         // eslint-disable-next-line no-console
         console.log('1111s ', this.users)
         // eslint-disable-next-line no-console
         console.log('2222 ', this.users.username)
-    }
+    },
+        methods: {
+            sendMessage(e) {
+                e.preventDefault();
+
+                this.socket.emit('SEND_MESSAGE', {
+                    user: this.user,
+                    message: this.message
+                });
+                this.message = ''
+            },
+        },
+        mounted() {
+            this.socket.on('MESSAGE', (data) => {
+                this.messages = [...this.messages, data];
+                // you can also do this.messages.push(data)
+            });
+        }
     }
 </script>
 
