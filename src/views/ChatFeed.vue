@@ -7,23 +7,20 @@
         >
             <v-list dense>
 
-                <v-list-item link>
+                <v-list-item>
+                    <v-avatar>
                     <v-list-item-action>
                         <v-icon>👈🏼</v-icon>
                     </v-list-item-action>
-
+                    </v-avatar>
                     <v-list-item-content>
-                       <router-link to="/"><v-list-item-title>Logout</v-list-item-title></router-link>
+                        <router-link to="/"><v-banner color="light">Logout</v-banner></router-link>
                     </v-list-item-content>
                 </v-list-item>
 
-
-
-                <v-list-item  v-for="item in onlines" :key="item" >
-                    <v-icon>🟢</v-icon> <v-banner>{{users.username}}</v-banner>
+                <v-list-item  v-for="users in userx" :key="users._id" >
+                    <v-icon>🟢</v-icon><v-card-text>{{users}}</v-card-text>
                 </v-list-item>
-
-
 
             </v-list>
         </v-navigation-drawer>
@@ -34,7 +31,9 @@
                 dark
         >
             <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+            <v-icon>☁️</v-icon>
             <v-toolbar-title>CloudChat</v-toolbar-title>
+
         </v-app-bar>
 
         <v-content>
@@ -49,40 +48,33 @@
                     <v-col class="text-center">
 
 
-                        <div>
-                            <v-row justify="center" align="center"></v-row>
-                            <v-container
 
-                                    id="scroll-target"
-                                    style="max-height: 300px"
-                                    class="overflow-y-auto"
-                            >
-                                <div class="messages" v-for="(msg, index) in messages" :key="index">
-                                    <p><span class="font-weight-bold">{{users.username}}: </span>{{ msg.message }}</p>
-                                </div>
-                                <v-row
-                                        v-scroll:#scroll-target="onScroll"
-                                        align="center"
-                                        justify="center"
-                                        style="height: 1000px"
-                                >
-                                </v-row>
-                            </v-container>
-                        </div>
+                    <form class="messages" v-for="(msg, index) in messages" :key="index._id">
+                            <v-card-text >
+                               {{msg.username}} : {{msg.message }}
+
+
+                            </v-card-text>
+                    </form>
+
 
                     </v-col>
                 </v-row>
-                <v-banner>
-                    <v-footer>
-                        <form @submit.prevent="sendMessage">
-                            <div class="gorm-group pb-3">
-                                <label for="message">Message:</label>
-                                <input type="text" v-model="message" class="form-control">
-                            </div>
-                            <v-btn type="submit" >Send</v-btn>
-                        </form>
-                    </v-footer>
-                </v-banner>
+
+
+
+
+                <v-footer>
+                    <form @submit.prevent="sendMessage">
+                        <v-text-field label="Type Here" type="text" v-model="message"></v-text-field>
+                        <v-btn v-on:click="sendMessage" type="submit" class="btn btn-success">Send</v-btn>
+                    </form>
+                </v-footer>
+
+
+
+
+
             </v-container>
         </v-content>
         <v-footer
@@ -96,47 +88,67 @@
 
 <script>
     import io from 'socket.io-client';
+    import jwtDecode from 'jwt-decode';
     export default {
         props: {
             source: String,
         },
-        data: () => ({
-            drawer: null,
-            users: JSON.parse(localStorage.getItem("userLog")),
-            onlines: [
-                {
-                    id :1,
-                    username:" "
-                },
+        data: function () {
+            const token = localStorage.userLog
+            const decoded = jwtDecode(token)
+            return {
+                drawer: null,
+                userlog: localStorage.getItem("userLog"),
+                username:decoded.username,
+                // onlines: [{_id :0,username:""}],
+                // nextonline_id :1,
+                socket: io('localhost:5050'),
+                message: '',
+                messages: [],
+                userx:[],
+            }
 
-            ],
-            nextOnlineId :2,
-
-            message: '',
-            messages: [],
-            socket : io('localhost:5050'),
-        }),
-    created() {
-        // eslint-disable-next-line no-console
-        console.log('1111s ', this.users)
-        // eslint-disable-next-line no-console
-        console.log('2222 ', this.users.username)
-    },
+        },
+            // created(){
+            // this.a()
+            // // eslint-disable-next-line no-console
+            //     console.log(this.users)
+            //     // eslint-disable-next-line no-console
+            //     console.log('name',this.username)
+            // },
         methods: {
+            join: function () {
+
+                this.socket.emit('newuser', this.username);
+            },
             sendMessage(e) {
+
                 e.preventDefault();
+                // eslint-disable-next-line no-console
 
                 this.socket.emit('SEND_MESSAGE', {
-                    user: this.user,
-                    message: this.message
+                    username: this.username,
+                    message: this.message,
+
+
+
                 });
                 this.message = ''
-            },
+
+            }
         },
         mounted() {
             this.socket.on('MESSAGE', (data) => {
                 this.messages = [...this.messages, data];
+                this.userx = [...data.users]
+                this.messages=[...data.username]
                 // you can also do this.messages.push(data)
+            });
+            this.join();
+            this.socket.on('userOnline', useOn => {
+                // eslint-disable-next-line
+                console.log('userOnline')
+                this.userx.push(useOn);
             });
         }
     }

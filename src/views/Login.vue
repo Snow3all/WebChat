@@ -52,7 +52,6 @@
 
 <script>
     import axios from 'axios'
-    // import router from '../router'
     export default {
         name: 'login',
         data() {
@@ -64,13 +63,14 @@
         methods: {
             login() {
                 // eslint-disable-next-line no-console
-                console.log("email",this.email)
+                console.log("email :",this.email)
+
                 axios.post('http://localhost:5000/users/login', {
                     email: this.email,
                     password: this.password
                 }).then(res => {
                     // eslint-disable-next-line no-console
-                    console.log(res)
+                    console.log(res,"ss")
                     if(res.data.error){
                         // eslint-disable-next-line no-console
                         console.log(res)
@@ -85,7 +85,7 @@
                         this.$router.replace({name: 'ChatFeed'})
                       let user = JSON.stringify(res.data);
                       // eslint-disable-next-line no-console
-                      console.log("user", user);
+                      console.log("user>>>>>>>>>", user);
                       localStorage.setItem("userLog", user);
                       // eslint-disable-next-line no-console
                       console.log(res.data,user,"==>")
@@ -96,6 +96,7 @@
                 })
             }
         }
+
     }
 </script>
 
