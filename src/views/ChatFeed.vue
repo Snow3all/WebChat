@@ -51,7 +51,7 @@
 
                     <form class="messages" v-for="(msg, index) in messages" :key="index._id">
                             <v-card-text >
-                               {{msg.username}} : {{msg.message }}
+                               {{msg.username}} : {{msg.msg }}
 
 
                             </v-card-text>
@@ -100,12 +100,12 @@
                 drawer: null,
                 userlog: localStorage.getItem("userLog"),
                 username:decoded.username,
-                // onlines: [{_id :0,username:""}],
-                // nextonline_id :1,
                 socket: io('localhost:5050'),
                 message: '',
+                a: '',
                 messages: [],
                 userx:[],
+                mes:[],
             }
 
         },
@@ -122,26 +122,31 @@
                 this.socket.emit('newuser', this.username);
             },
             sendMessage(e) {
-
+                // eslint-disable-next-line no-console
                 e.preventDefault();
                 // eslint-disable-next-line no-console
-
-                this.socket.emit('SEND_MESSAGE', {
-                    username: this.username,
-                    message: this.message,
-
-
+                    console.log({ username: this.username, message: this.message,})
+                this.socket.emit('a111',
+                    {
+                        username: this.username,
+                        message: this.message
 
                 });
-                this.message = ''
+
+                // this.message = ''
 
             }
         },
-        mounted() {
-            this.socket.on('MESSAGE', (data) => {
+        mounted: function () {
+            this.socket.on('resend', (data) => {
+                // eslint-disable-next-line
+                console.log('resend', data)
                 this.messages = [...this.messages, data];
+
+                // eslint-disable-next-line
+                console.log('mess ', this.messages)
                 this.userx = [...data.users]
-                this.messages=[...data.username]
+                // this.mes = [...data.username]
                 // you can also do this.messages.push(data)
             });
             this.join();
